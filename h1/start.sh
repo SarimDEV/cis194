@@ -1,5 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Starting..."
-ghc -o build/validate-credit-card-numbers -hidir build -odir build validate-credit-card-numbers.hs
-./build/validate-credit-card-numbers
+filename="$1"  # Assuming the filename is passed as the first argument
+
+name="$(echo "$filename" | sed 's/\.hs$//')"
+
+echo "Starting $name ..."
+
+ghc -o build/$name -hidir build -odir build $filename
+./build/$name
