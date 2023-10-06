@@ -9,14 +9,8 @@ localMaxima v = map (\(_,y,_) -> y) (filter (\(x,y,z) -> y > x && y > z) (zip3 v
 freq :: [Integer] -> [Int]
 freq l = [length (filter (==n) l) | n <- [0..9]]
 --
-f :: [Int] -> Int -> [[Bool]]
-f arr m = reverse [ map (>=i) arr | i <- [1..m]]
+f :: [Int] -> [[String]]
+f arr = reverse [ map (\x -> if x >= i then "*" else " ") arr | i <- [1..maximum arr]]
 
-fmt :: [Bool] -> String
-fmt = concatMap (\x -> if x then "*" else " ")
-
-fmtAll :: [[Bool]] -> String
-fmtAll = concatMap ((++ "\n") . fmt)
-
-histogram :: [Integer] -> String
-histogram p = fmtAll(f (freq p) (maximum (freq p))) ++ "==========\n0123456789\n"
+histogram p = unlines line ++ "==========\n0123456789\n"
+    where line = map concat (f (freq p))
